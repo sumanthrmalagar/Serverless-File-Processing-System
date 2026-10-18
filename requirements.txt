@@ -1,0 +1,10 @@
+# Runtime dependencies for the SFPS Lambda function.
+# Pinned exactly so the deployment package build is reproducible.
+boto3==1.43.112
+botocore==1.43.112
+jmespath==1.1.0
+Pillow==12.3.0
+python-dateutil==2.9.0.post0
+s3transfer==0.19.2
+six==1.17.0
+urllib3==2.8.0

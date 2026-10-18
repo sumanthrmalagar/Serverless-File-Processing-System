@@ -1,0 +1,44 @@
+# Virtual environment
+.venv/
+
+# Generated build artifacts (Lambda deployment package)
+build/
+function.zip
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Packaging
+dist/
+*.egg-info/
+
+# IDE / editor
+.idea/
+.vscode/
+
+# OS junk
+Thumbs.db
+.DS_Store
+
+# Local tooling directories (never committed)
+.agents/
+.claude/
+.opencode/
+agent/
+skills-lock.json
+
+# Internal documentation, kept out of the public repository
+docs/
+
+# Case study build folder. The published case study is pushed from
+# Case Study/GitHub-Pages/ to its own repository, so the main repo ignores it.
+Case Study/
+
+# Logs & reports
+*.log
+.coverage
+htmlcov/
+.mypy_cache/
