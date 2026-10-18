@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFPS Evidence Inventory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#1f2733; --muted:#5b6675; --navy:#1f3864; --accent:#bf4520; --rule:#d9dee7; --tint:#eef3f9;
+  --serif:'Instrument Serif',Georgia,serif; --sans:'Geist','Segoe UI',sans-serif; --mono:'Geist Mono',Consolas,monospace; }
+* { box-sizing:border-box; }
+body { margin:0; background:#f7f6f3; color:var(--ink); font-family:var(--sans); line-height:1.7; }
+.wrap { max-width:920px; margin:0 auto; padding:40px 24px 80px; }
+.back { display:inline-block; font-family:var(--mono); font-size:13px; color:var(--navy); text-decoration:none; margin-bottom:28px; }
+.back:hover { color:var(--accent); }
+h1 { font-family:var(--serif); font-weight:400; font-size:42px; color:var(--navy); margin:0 0 8px; }
+h2 { font-family:var(--serif); font-weight:400; font-size:30px; color:var(--navy); margin:44px 0 10px; border-top:1px solid var(--rule); padding-top:26px; }
+h3 { font-size:17px; margin:26px 0 8px; }
+p, li { font-size:15.5px; }
+code { font-family:var(--mono); font-size:13px; background:var(--tint); padding:2px 5px; border-radius:4px; }
+table { border-collapse:collapse; width:100%; font-size:13px; margin:18px 0 26px; background:#fff; }
+th { background:var(--navy); color:#fff; text-align:left; padding:9px 10px; font-size:12px; }
+td { padding:8px 10px; border-top:1px solid var(--rule); vertical-align:top; }
+tr:nth-child(even) td { background:#f8f9fb; }
+a { color:#2e5aa8; }
+hr { border:0; border-top:1px solid var(--rule); margin:34px 0; }
+</style>
+</head>
+<body><div class="wrap"><a class="back" href="index.html">← Back to the case study</a>
+<h1 id="sfps-evidence-inventory">SFPS Evidence Inventory</h1>
+<p>The audit trail behind the case study: what I reviewed, which
+captures are published, what I left out, and which claims I still cannot
+verify. The Word and HTML editions are the case study itself.</p>
+<p>Version 1.0, 18 October 2026.</p>
+<hr />
+<h2 id="1-sources-reviewed">1. Sources reviewed</h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What it provided</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>Architecture summary, resource names, configuration contract,
+deployment steps, packaging rules, error codes, acceptance walkthrough,
+troubleshooting.</td>
+</tr>
+<tr>
+<td><code>docs/SFPS PRD.md</code></td>
+<td>Functional and nonfunctional requirements, processing order, failure
+model, IAM policy, deployment steps, definition of done.</td>
+</tr>
+<tr>
+<td><code>docs/BuildGuide.md</code></td>
+<td>Build prompts, packaging constraints, verification tasks, platform
+tag decision, acceptance scope.</td>
+</tr>
+<tr>
+<td><code>docs/AWS Console Setup Guide.md</code></td>
+<td>Step-by-step console deployment, acceptance walkthrough, failure
+injection procedure, teardown.</td>
+</tr>
+<tr>
+<td><code>docs/ARCHITECTURE_DECISIONS.md</code></td>
+<td>ADR-001 to ADR-017, including the manylinux_2_28_aarch64 decision,
+failure classification, consistent duplicate read, and dependency
+locking.</td>
+</tr>
+<tr>
+<td><code>docs/BUILD_STATE.md</code></td>
+<td>Local verification record dated 16 October 2026, audit corrections,
+deployment acceptance status, package verification.</td>
+</tr>
+<tr>
+<td><code>docs/solutions/sfps-v1-learnings.md</code></td>
+<td>Build pitfalls, design decisions, reusable patterns, review lessons,
+audit corrections.</td>
+</tr>
+<tr>
+<td><code>src/handler.py</code></td>
+<td>Event parsing, processing identity, write protocol, failure
+classification, logging, configuration.</td>
+</tr>
+<tr>
+<td><code>src/validation.py</code></td>
+<td>Extension, signature, image, and text validation; error
+contract.</td>
+</tr>
+<tr>
+<td><code>src/checksum.py</code></td>
+<td>SHA-256 helper.</td>
+</tr>
+<tr>
+<td><code>src/processors/image.py</code></td>
+<td>Image metadata extraction.</td>
+</tr>
+<tr>
+<td><code>src/processors/text.py</code></td>
+<td>Text statistics.</td>
+</tr>
+<tr>
+<td><code>tests/</code></td>
+<td>135 collected tests across six files.</td>
+</tr>
+<tr>
+<td><code>requirements.txt</code>, <code>requirements-dev.txt</code>,
+<code>pyproject.toml</code></td>
+<td>Dependency and tool versions.</td>
+</tr>
+<tr>
+<td><code>function.zip</code></td>
+<td>Verified deployment archive: 2,358 entries, 22,955,647 bytes
+compressed, 45,828,329 bytes uncompressed.</td>
+</tr>
+<tr>
+<td><code>Case Study/Images/</code></td>
+<td>22 AWS Console screenshots and one SQS message text file.</td>
+</tr>
+<tr>
+<td><code>Case Study/Images/Amazon SQS/SQS.txt</code></td>
+<td>Captured invocation envelope for the injected infrastructure
+failure.</td>
+</tr>
+</tbody>
+</table>
+<p>Local commands re-run for this case study on 18 October 2026:</p>
+<ul>
+<li><code>python -m pytest -q</code> → 135 passed in 48.66 seconds.</li>
+<li><code>python -m ruff check src tests</code> → all checks
+passed.</li>
+<li><code>python -m pip check</code> → no broken requirements.</li>
+<li>Archive inspection of <code>function.zip</code> → handler at root,
+forward-slash entry names, no bytecode, eight aarch64 Pillow extension
+modules, all eight dependency versions matching
+<code>requirements.txt</code>.</li>
+</ul>
+<hr />
+<h2 id="2-screenshots-included">2. Screenshots included</h2>
+<p>All 22 supplied screenshots appear in the case study. Prepared copies
+in <code>Assets/figures/</code> add a hairline border. Five copies crop
+the browser top bar or account menu; no console panel content was
+removed. Original files in <code>Images/</code> are unchanged.</p>
+<table>
+<thead>
+<tr>
+<th>Figure</th>
+<th>Source capture</th>
+<th>Prepared asset</th>
+<th>What the capture supports</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4.3</td>
+<td><code>Lambda/Screenshot 2026-10-18 191128.png</code></td>
+<td><code>fig-4-3-lambda-overview.png</code></td>
+<td>S3 trigger, function node, SQS destination, function ARN.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>6.1</td>
+<td><code>S3 Bucket/Screenshot 2026-10-18 190755.png</code></td>
+<td><code>fig-6-1-s3-bucket.png</code></td>
+<td>Bucket name and <code>incoming/</code> prefix at the bucket
+root.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>6.2</td>
+<td><code>S3 Bucket/Screenshot 2026-10-18 190819.png</code></td>
+<td><code>fig-6-2-s3-incoming.png</code></td>
+<td>Objects under <code>incoming/</code>, including
+<code>images.jpg</code>, <code>sample.jpg</code>, and
+<code>sample.pdf</code> with sizes.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>6.3</td>
+<td><code>DynamoDB/Screenshot 2026-10-18 190023.png</code></td>
+<td><code>fig-6-3-dynamodb-table.png</code></td>
+<td><code>sfps-processing</code> table browser with the Scan view and
+all attributes selected.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>6.4</td>
+<td><code>Lambda/Screenshot 2026-10-18 191121.png</code></td>
+<td><code>fig-6-4-lambda-functions.png</code></td>
+<td><code>sfps-processor</code> as a Zip package on Python 3.13.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>6.5</td>
+<td><code>Lambda/Screenshot 2026-10-18 191139.png</code></td>
+<td><code>fig-6-5-lambda-general.png</code></td>
+<td>512 MB memory, 30-second timeout, 512 MB ephemeral storage.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>6.6</td>
+<td><code>Lambda/Screenshot 2026-10-18 191134.png</code></td>
+<td><code>fig-6-6-lambda-environment.png</code></td>
+<td><code>LOG_LEVEL=INFO</code>,
+<code>MAX_FILE_SIZE_BYTES=26214400</code>,
+<code>TABLE_NAME=sfps-processing</code>.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>6.7</td>
+<td><code>Lambda/Screenshot 2026-10-18 191151.png</code></td>
+<td><code>fig-6-7-lambda-trigger.png</code></td>
+<td><code>s3:ObjectCreated:*</code>, prefix <code>incoming/</code>,
+service principal, source account, statement ID.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>6.8</td>
+<td><code>CloudWatch/Screenshot 2026-10-18 191323.png</code></td>
+<td><code>fig-6-8-cloudwatch-log-group.png</code></td>
+<td><code>/aws/lambda/sfps-processor</code> log group exists with the
+Standard class.</td>
+<td>Partially verified; retention value not visible</td>
+</tr>
+<tr>
+<td>6.9</td>
+<td><code>CloudWatch/Screenshot 2026-10-18 191344.png</code></td>
+<td><code>fig-6-9-cloudwatch-streams.png</code></td>
+<td>Seven recent log streams on 18 October 2026.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>8.1</td>
+<td><code>IAM/Screenshot 2026-10-18 191509.png</code></td>
+<td><code>fig-8-1-iam-role.png</code></td>
+<td>Role summary page, ARN, creation date, maximum session
+duration.</td>
+<td>Partially verified; attached policy not shown</td>
+</tr>
+<tr>
+<td>8.2</td>
+<td><code>Lambda/Screenshot 2026-10-18 191203.png</code></td>
+<td><code>fig-8-2-lambda-destination.png</code></td>
+<td>Asynchronous invocation destination: On failure to
+<code>sfps-failed-events</code>.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>8.3</td>
+<td><code>Amazon SQS/Screenshot 2026-10-18 190605.png</code></td>
+<td><code>fig-8-3-sqs-message.png</code></td>
+<td>One received message, receive count 1, 1.5 KB, timestamp.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>9.1</td>
+<td><code>S3 Bucket/Screenshot 2026-10-18 190827.png</code></td>
+<td><code>fig-9-1-s3-test-structure.png</code></td>
+<td><code>case-study-tests/</code> with <code>positive/</code> and
+<code>negative/</code> folders.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>9.2</td>
+<td><code>S3 Bucket/Screenshot 2026-10-18 190834.png</code></td>
+<td><code>fig-9-2-s3-negative.png</code></td>
+<td>Negative fixtures including <code>08-unsupported.csv</code>,
+<code>09-invalid-utf8.txt</code>, <code>10-fake-jpeg.jpg</code>.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>9.3</td>
+<td><code>S3 Bucket/Screenshot 2026-10-18 190841.png</code></td>
+<td><code>fig-9-3-s3-positive.png</code></td>
+<td>Positive fixtures including <code>04-multiline.txt</code>,
+<code>05-unicode.txt</code>, and a <code>nested/</code> folder.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>9.4</td>
+<td><code>DynamoDB/Screenshot 2026-10-18 190040.png</code></td>
+<td><code>fig-9-4-dynamodb-scan-1.png</code></td>
+<td>Scan summary: 25 items returned, 25 scanned, 2.5 RCUs; completed and
+failed rows.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>9.5</td>
+<td><code>DynamoDB/Screenshot 2026-10-18 190049.png</code></td>
+<td><code>fig-9-5-dynamodb-scan-2.png</code></td>
+<td>Additional rows: <code>01-landscape.jpg</code>,
+<code>11-corrupt-png.png</code>, <code>05-unicode.txt</code>, zero-byte
+records.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>9.6</td>
+<td><code>DynamoDB/Screenshot 2026-10-18 190058.png</code></td>
+<td><code>fig-9-6-dynamodb-scan-3.png</code></td>
+<td>Additional rows: <code>03-square.png</code>,
+<code>sample.txt</code>, <code>02-portrait.jpeg</code>,
+<code>12-over-pixel-limit.png</code>,
+<code>08-unsupported.csv</code>.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>9.7</td>
+<td><code>DynamoDB/Screenshot 2026-10-18 190103.png</code></td>
+<td><code>fig-9-7-dynamodb-scan-4.png</code></td>
+<td>Final rows: <code>09-invalid-utf8.txt</code>,
+<code>06-nested-image.jpg</code>, <code>10-fake-jpeg.jpg</code>,
+<code>sample.jpg</code>.</td>
+<td>Visually verified</td>
+</tr>
+<tr>
+<td>9.8</td>
+<td><code>CloudWatch/Screenshot 2026-10-18 191404.png</code></td>
+<td><code>fig-9-8-cloudwatch-failure-log.png</code></td>
+<td>Platform START/END/REPORT lines and structured JSON application
+lines for a failed validation.</td>
+<td>Visually verified; field values truncated by console width</td>
+</tr>
+<tr>
+<td>10.1</td>
+<td><code>CloudWatch/Screenshot 2026-10-18 191412.png</code></td>
+<td><code>fig-10-1-cloudwatch-durations.png</code></td>
+<td>REPORT durations for two failed invocations: 339.63 ms and 104.64
+ms.</td>
+<td>Visually verified</td>
+</tr>
+</tbody>
+</table>
+<p><code>SQS.txt</code> is reproduced in redacted form as Code B.1 in
+Appendix B of the case study. Account and network identifiers are
+replaced with placeholders.</p>
+<h2 id="3-screenshots-omitted">3. Screenshots omitted</h2>
+<p>None. Every supplied screenshot is used. No screenshot was discarded
+as duplicated or outdated.</p>
+<h2 id="4-missing-evidence">4. Missing evidence</h2>
+<p>The following evidence was not supplied. Each item is treated as
+documented configuration or an unverified claim in the case study.</p>
+<table>
+<thead>
+<tr>
+<th>Missing evidence</th>
+<th>Why it matters</th>
+<th>Current status in the document</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S3 bucket Properties tab (versioning, SSE-S3, public access)</td>
+<td>Confirms the storage controls.</td>
+<td>Documented; marked as not visible in the captures.</td>
+</tr>
+<tr>
+<td>S3 bucket Permissions tab (TLS-only bucket policy)</td>
+<td>Confirms the deny-non-TLS policy text.</td>
+<td>Documented policy JSON; not visually verified.</td>
+</tr>
+<tr>
+<td>S3 bucket Management tab (lifecycle rule)</td>
+<td>Confirms 30-day noncurrent expiry.</td>
+<td>Documented; not visually verified.</td>
+</tr>
+<tr>
+<td>DynamoDB table settings (capacity mode, PITR, encryption,
+indexes)</td>
+<td>Confirms on-demand mode and disabled PITR.</td>
+<td>Documented; not visually verified.</td>
+</tr>
+<tr>
+<td>IAM attached policy document</td>
+<td>Confirms the action-level scope.</td>
+<td>Documented policy JSON; role page captured without the policy.</td>
+</tr>
+<tr>
+<td>Lambda Asynchronous invocation retry count</td>
+<td>Confirms <code>MaximumRetryAttempts=2</code>.</td>
+<td>Documented; not visible in the captures.</td>
+</tr>
+<tr>
+<td>CloudWatch log group retention value</td>
+<td>Confirms 30-day retention.</td>
+<td>Documented; the log group capture does not show the column.</td>
+</tr>
+<tr>
+<td>SQS queue settings (retention, visibility, encryption, DLQ)</td>
+<td>Confirms the queue configuration.</td>
+<td>Documented; the message capture shows the queue in use.</td>
+</tr>
+<tr>
+<td>Deployed 25 MiB text boundary measurement</td>
+<td>Confirms Lambda memory and duration at the upload ceiling.</td>
+<td>Local test only; deployed acceptance remains outstanding.</td>
+</tr>
+<tr>
+<td>Deployed pixel-boundary image measurement</td>
+<td>Confirms decode behavior at 16,000,000 pixels.</td>
+<td>Local tests only; deployed acceptance remains outstanding.</td>
+</tr>
+<tr>
+<td>Successful PNG invocation metric capture</td>
+<td>The 89 ms / 150.13 ms / 117 MB figures are owner-recorded.</td>
+<td>Labeled as an owner-recorded single observation, not a
+screenshot.</td>
+</tr>
+<tr>
+<td>Exact error_code per failed record</td>
+<td>The DynamoDB console truncates the error column.</td>
+<td>Expected codes listed; exact per-row codes are owner-reported.</td>
+</tr>
+<tr>
+<td>AWS billing or Cost Explorer data</td>
+<td>Confirms actual cost.</td>
+<td>No billing data; cost model described qualitatively.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-unverified-or-partially-verified-technical-claims">5.
+Unverified or partially verified technical claims</h2>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bucket versioning, SSE-S3, public-access blocking, TLS-only policy,
+lifecycle rule</td>
+<td>Implemented and documented, not visually verified</td>
+<td>The README and deployment guide contain the exact settings and
+policies.</td>
+</tr>
+<tr>
+<td>IAM least-privilege policy attachment</td>
+<td>Implemented and documented, not visually verified</td>
+<td>The captured role page shows a role named
+<code>sfps-lambda-scoped-policy</code>; the repository documents
+<code>sfps-lambda-role</code> with an inline policy named
+<code>sfps-lambda-scoped-policy</code>. The discrepancy is recorded in
+the case study.</td>
+</tr>
+<tr>
+<td><code>MaximumRetryAttempts=2</code></td>
+<td>Implemented and documented, not visually verified</td>
+<td>The captured SQS envelope shows
+<code>approximateInvokeCount: 3</code>, which is consistent with the
+initial attempt plus two retries.</td>
+</tr>
+<tr>
+<td>30-day CloudWatch retention</td>
+<td>Implemented and documented, not visually verified</td>
+<td>The log group exists; the retention value is not visible in the
+capture.</td>
+</tr>
+<tr>
+<td>SQS queue configuration (14 days, 30 seconds, SSE-SQS, no DLQ)</td>
+<td>Implemented and documented, not visually verified</td>
+<td>The message capture confirms delivery only.</td>
+</tr>
+<tr>
+<td>DynamoDB on-demand capacity, PITR disabled, no secondary
+indexes</td>
+<td>Implemented and documented, not visually verified</td>
+<td>The table browser capture shows columns and rows, not settings.</td>
+</tr>
+<tr>
+<td>Deployed 25 MiB memory and timeout boundary</td>
+<td>Not verified on Lambda</td>
+<td>Local Windows measurements are recorded, not Linux arm64 Lambda
+metrics.</td>
+</tr>
+<tr>
+<td>Deployed pixel-boundary image handling</td>
+<td>Not verified on Lambda</td>
+<td>Local 4000x4000 and 12000x12000 tests pass; the deployed
+oversized-image case is observed as a FAILED record.</td>
+</tr>
+<tr>
+<td>General performance</td>
+<td>Not claimed</td>
+<td>One successful PNG invocation is recorded; no averages, percentiles,
+throughput, or cold-start study.</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Not claimed</td>
+<td>No billing data.</td>
+</tr>
+<tr>
+<td>Production-grade security, fault tolerance, or recovery
+objectives</td>
+<td>Not claimed</td>
+<td>The document lists the controls that exist and the gaps that
+remain.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-outstanding-tests">6. Outstanding tests</h2>
+<ol type="1">
+<li>Upload a 25 MiB UTF-8 text fixture to the deployed function and
+record the REPORT memory and duration. Confirm the result is under 512
+MB and 30 seconds.</li>
+<li>Upload a valid image at the 16,000,000 pixel boundary and a 12,000
+by 12,000 PNG to the deployed function. Confirm acceptance and
+rejection, and record the REPORT values.</li>
+<li>Capture the S3 bucket Properties, Permissions, and Management
+tabs.</li>
+<li>Capture the attached IAM policy JSON and the Lambda asynchronous
+invocation retry setting.</li>
+<li>Capture the CloudWatch log group retention value.</li>
+<li>Capture the exact <code>error_code</code> for each negative fixture,
+or use a DynamoDB query that returns the full error map.</li>
+<li>Run a controlled concurrency or load test and decide whether
+reserved concurrency is needed.</li>
+<li>Collect a billing or Cost Explorer sample for the acceptance
+workload before making any cost statement.</li>
+</ol>
+<h2 id="7-evidence-notes-and-cautions">7. Evidence notes and
+cautions</h2>
+<ul>
+<li>The 25 DynamoDB records are not 25 independent test scenarios. They
+are 10 COMPLETED and 15 FAILED records. The set includes two versions of
+<code>sample.png</code>, seven zero-byte folder-marker records, four
+initial acceptance records, six additional positive fixtures, and eight
+initial or additional negative records. The breakdown is in Table 9.2 of
+the case study.</li>
+<li>The captured SQS envelope verifies the destination behavior for one
+intentionally injected infrastructure failure. It does not prove every
+failure mode, the exact retry timing, or the handling of the message
+after capture.</li>
+<li>The SQS envelope references <code>incoming/images.jpg</code>. A
+COMPLETED record with the same file name also appears in the DynamoDB
+scan. The evidence does not establish whether the completion came from a
+replay, a new upload, or a retry after the configuration was restored,
+so the case study does not assert an order.</li>
+<li>No access keys, secret keys, session tokens, or passwords appear in
+the supplied screenshots or in <code>SQS.txt</code>. The AWS account
+number and a source IP address appear in some source material. The IP
+address is redacted in the reproduced envelope. In the published site
+build, the account number is replaced with <code>000000000000</code> in
+every screenshot where it appeared: 13 locations across 9 figures. The
+original captures are unchanged and remain outside the published
+assets.</li>
+<li>The workspace <code>build/</code> directory contains botocore
+1.43.113, while the verified <code>function.zip</code> contains botocore
+1.43.112. The case study cites <code>function.zip</code> as the release
+artifact and records the stale directory as a packaging lesson.</li>
+<li>The IAM role page is named <code>sfps-lambda-scoped-policy</code>,
+while the repository documentation names the role
+<code>sfps-lambda-role</code>. The case study records the difference
+rather than smoothing it over.</li>
+<li>The architecture and sequence diagrams in Figures 4.1 and 4.2 are
+mine, drawn from the implemented code and the deployed configuration.
+They are not AWS Console screenshots.</li>
+</ul>
+<h2 id="8-deliverables-produced">8. Deliverables produced</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SFPS_Complete_Project_Case_Study.docx</code></td>
+<td>Formatted Word case study with cover, automatic table of contents,
+24 figures, 25 tables, code excerpts, running headers, footers, and page
+numbers.</td>
+</tr>
+<tr>
+<td><code>SFPS_Complete_Project_Case_Study.html</code></td>
+<td>Self-contained HTML edition with the same content, inline SVG
+diagrams, embedded screenshots, sidebar navigation, lightbox figures,
+and print styles.</td>
+</tr>
+<tr>
+<td><code>SFPS_Complete_Project_Case_Study.pdf</code></td>
+<td>PDF export of the Word edition, used for layout verification.</td>
+</tr>
+<tr>
+<td><code>SFPS_Evidence_Inventory.md</code></td>
+<td>This file.</td>
+</tr>
+<tr>
+<td><code>Diagrams/sfps-architecture.html</code></td>
+<td>Source of the architecture diagram.</td>
+</tr>
+<tr>
+<td><code>Diagrams/sfps-processing-sequence.html</code></td>
+<td>Source of the processing sequence diagram.</td>
+</tr>
+<tr>
+<td><code>Assets/figures/</code></td>
+<td>Prepared figure images used by both editions.</td>
+</tr>
+<tr>
+<td><code>Assets/preview/</code></td>
+<td>Rendered page previews used during quality assurance.</td>
+</tr>
+<tr>
+<td><code>content.py</code>, <code>build_docx.py</code>,
+<code>build_html.py</code></td>
+<td>Generators for the two editions.</td>
+</tr>
+</tbody>
+</table>
+
+</div></body></html>
